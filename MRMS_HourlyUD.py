@@ -33,8 +33,8 @@ from shapely.ops import transform
 start_yr = 2015
 end_yr = 2021
 city = 'CITY NAME'
-lon = -97.5164
-lat = 35.4676
+lon = # LONGITUDE 
+lat = # LATITUDE
 buf_dis = 60 # radius of the round buffer, in km
 ang_range = 90
 
