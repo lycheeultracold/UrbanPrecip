@@ -1,0 +1,33 @@
+#! /bin/bash
+
+year=2020
+
+trgt_dir=./MRMS_PrecipData/$year/nc_file
+mkdir -p $trgt_dir
+find . -type f -path "./${year}/*mrms*/*.gz" -exec cp {} $trgt_dir \;
+cp grib2nc $trgt_dir
+cd $trgt_dir
+gunzip *.gz
+
+find . -type f -name "*.grib2" | while read fname 
+do
+  base=$(echo $fname | cut -d '_' -f 1)
+  if [ $base = "./GaugeCorr" ]
+  then
+    filename=$(echo $fname | cut -d '_' -f 5)
+    ftime=$(echo $filename | cut -d '.' -f 1)
+    ./grib2nc $fname -netcdf $ftime".nc"
+  fi
+  if [ $base = "./MultiSensor" ]
+  then
+    filename=$(echo $fname | cut -d '_' -f 6)
+    ftime=$(echo $filename | cut -d '.' -f 1)
+    ./grib2nc $fname -netcdf $ftime".nc"
+  fi
+done
+
+
+#rm *.grib2
+
+#find . -type f -name "*.grib2" -exec ./grib2nc {} -netcdf {}.nc \;
+
