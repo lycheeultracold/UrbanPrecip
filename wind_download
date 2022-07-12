@@ -1,0 +1,19 @@
+#! /bin/bash
+
+year=2020
+
+cd ~
+touch .netrc
+echo "machine urs.earthdata.nasa.gov login YOUR_USERNAME password YOUR_PASSWORD" >> .netrc
+chmod 0600 .netrc
+
+cd ~
+touch .urs_cookies
+
+cd /glade/scratch/USERNAME/MRMS_PrecipData/$year
+
+#dn_ls=ls ./wind/*.txt
+folder=./wind
+#mkdir -p $folder
+
+wget --load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --auth-no-challenge=on --keep-session-cookies --content-disposition -P $folder -i $folder/*.txt
