@@ -1,0 +1,24 @@
+#! /bin/bash
+
+# upzip .gz files in all subdirectories (.gz files will be removed after unzipping)
+#gunzip -r .
+
+mkdir -p ./nc_file
+
+#ls_grib= find . -type f -name *.grib2 | sort -n
+
+#for file in $ls_grib
+#do
+  #f_time=$(echo $file | cut -d '_' -f 6)
+  #filename=${file%.*}
+  #f_time=echo ${file:-21:15}
+  #echo $count
+  #./grib2nc $file -netcdf output.nc
+#done
+
+find . -type f -name *.grib2 | while read fname; 
+do
+  filename=$(echo $fname | cut -d '_' -f 7)
+  ftime=$(echo $filename | cut -d '.' -f 1)
+  ./grib2nc $fname -netcdf ./nc_file/$ftime".nc"
+done
